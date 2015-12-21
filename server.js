@@ -4,10 +4,10 @@ var app = express();
 
 var MongoClient = require('mongodb').MongoClient;
 
-var port = 27017;
+var port = 3000;
 var objectID = require('mongodb').ObjectID;
 var patients = require('./routes/patients');
-var url = 'mongodb://127.1.0.1:27017/test';
+var url = 'mongodb://localhost/clericApp';
 
 app.use('/patients', patients);
 
