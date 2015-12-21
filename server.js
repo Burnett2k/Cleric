@@ -2,27 +2,29 @@ var express = require('express');
 var assert = require('assert');
 var app = express();
 
-var MongoClient = require('mongodb').MongoClient;
+var mongoose = require('mongoose');
 
 var port = 3000;
 var objectID = require('mongodb').ObjectID;
-var patients = require('./routes/patients');
-var url = 'mongodb://localhost/clericApp';
 
+var patients = require('./routes/patients');
 app.use('/patients', patients);
 
+var url = 'mongodb://localhost/clericApp';
 
 
 
-MongoClient.connect(url, function(err, db) {
+
+
+mongoose.connect(url, function(err) {
 	if (err) {
 		console.log("There was an error connecting to the server bro");
 	}
 	else {
-		console.log("Connected correctly to server");
+		console.log("connection successful");
 	}
 	assert.equal(null, err);
-	db.close();
+
 })
 
 app.listen(port);
