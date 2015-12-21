@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 
 var PatientSchema = new mongoose.Schema({
   name: String,
-  completed: Boolean,
-  note: String,
+  age: int,
+  weight: int,
   updated_at: { type: Date, default: Date.now },
 });
 
