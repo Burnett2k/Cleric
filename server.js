@@ -1,27 +1,31 @@
 var express = require('express');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var stormpath = require('express-stormpath');
-var routes = require("./app/routes");
-var db = require('./config/db');
-var security = require('./config/security');
-
+var assert = require('assert');
 var app = express();
-var morgan = require('morgan');
-app.use(morgan);
-app.use(stormpath.init(app, {
-     apiKeyFile: './config/stormpath_apikey.properties',
-     application: ‘YOUR SP APPLICATION URL',
-     secretKey: security.stormpath_secret_key
- }));
- var port = 8000;
- mongoose.connect(db.url);
 
- app.use(bodyParser.urlencoded({ extended: true }));
+var MongoClient = require('mongodb').MongoClient;
 
- routes.addAPIRouter(app, mongoose, stormpath);
+var port = 27017;
+var objectID = require('mongodb').ObjectID;
+var patients = require('./routes/patients');
+var url = 'mongodb://127.1.0.1:27017/test';
 
- app.use(function(req, res, next){
-   res.status(404);
-   res.json({ error: 'Invalid URL' });
-});
+app.use('/patients', patients);
+
+
+
+
+MongoClient.connect(url, function(err, db) {
+	if (err) {
+		console.log("There was an error connecting to the server bro");
+	}
+	else {
+		console.log("Connected correctly to server");
+	}
+	assert.equal(null, err);
+	db.close();
+})
+
+app.listen(port);
+
+console.log('Magic happens on port ' + port);
+ 
