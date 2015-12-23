@@ -7,7 +7,12 @@ var Patient = require('../models/Patient.js');
 /* GET /Patient listing. */
 router.get('/', function(req, res, next) {
   Patient.find(function (err, patients) {
-    if (err) return next(err);
+  	console.log("getting patients");
+    if (err) 
+    	{
+    		console.log(err);
+    		return next(err);
+    	}
     res.json(patients);
   });
 });
@@ -15,7 +20,41 @@ router.get('/', function(req, res, next) {
 /* POST /Patients */
 router.post('/', function(req, res, next) {
   Patient.create(req.body, function (err, post) {
-    if (err) return next(err);
+  	console.log("posting patient");
+  	console.log("req = " + req.toString());
+  	console.log("res = " + res.toString());
+    if (err) 
+    	{
+    		console.log(err);
+    		return next(err);
+    	}
+    res.json(post);
+  });
+});
+
+/* GET /todos/id */
+router.get('/:id', function(req, res, next) {
+  Patient.findById(req.params.id, function (err, post) {
+  	console.log("finding patient by id");
+  	console.log("res = " + res.toString());
+  	console.log(res.toString());
+    if (err) 
+    	{
+    		console.log(err);
+    		return next(err);
+    	}
+    res.json(post);
+  });
+});
+
+/* DELETE /todos/:id */
+router.delete('/:id', function(req, res, next) {
+  Patient.findByIdAndRemove(req.params.id, req.body, function (err, post) {
+    if (err) 
+    	{
+    		console.log(err);
+    		return next(err);
+    	}
     res.json(post);
   });
 });

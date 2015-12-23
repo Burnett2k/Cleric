@@ -10,7 +10,7 @@ var objectID = require('mongodb').ObjectID;
 var patients = require('./routes/patients');
 app.use('/patients', patients);
 
-var url = 'mongodb://localhost/clericApp';
+var url = 'mongodb://localhost/Cleric';
 
 
 
