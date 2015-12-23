@@ -1,0 +1,39 @@
+{
+  "name": "cleric",
+  "version": "1.0.0",
+  "description": "dependencies",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "async": "^1.5.0",
+    "body-parser": "^1.14.2",
+    "express": "^4.13.3",
+    "express-stormpath": "^2.3.3",
+    "express-generator": "^4.13.1",
+    "frisby": "^0.8.5",
+    "mongod": "^1.3.0",
+    "mongodb": "^2.0.52",
+    "mongoose": "^4.3.3",
+    "nodemon": "^1.8.1",
+    "path": "^0.12.7",
+    "stormpath": "^0.15.2",
+    "validator": "^4.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Burnett2k/Cleric.git"
+  },
+  "author": "Sawyer Burnett",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Burnett2k/Cleric/issues"
+  },
+  "homepage": "https://github.com/Burnett2k/Cleric#readme"
+}
