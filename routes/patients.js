@@ -19,6 +19,7 @@ router.get('/', function(req, res, next) {
 
 /* POST /Patients */
 router.post('/', function(req, res, next) {
+  //should this be a 'save' instead of a create?
   Patient.create(req.body, function (err, post) {
   	console.log("posting patient");
   	console.log("req = " + req.toString());

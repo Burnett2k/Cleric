@@ -5,14 +5,13 @@ var app = express();
 var mongoose = require('mongoose');
 
 var port = 3000;
-var objectID = require('mongodb').ObjectID;
 
 var patients = require('./routes/patients');
 app.use('/patients', patients);
 
 var url = 'mongodb://localhost/Cleric';
 
-
+var createTestData = false;
 
 
 
@@ -28,6 +27,23 @@ mongoose.connect(url, function(err) {
 })
 
 app.listen(port);
+
+if (createTestData) {
+	var Patient = require('./models/Patient');
+
+	var sawyer = new Patient({
+	  username: 'burnett2k',
+	  password: 'blah',
+	  name: 'Sawyer Burnett',
+	  age: 28,
+	  weight: 170
+	})
+
+	sawyer.save(function(err) {
+		if (err) throw err;
+		console.log("created patient");
+	});
+}
 
 console.log('Magic happens on port ' + port);
  
