@@ -32,7 +32,7 @@ if (createTestData) {
 	var Patient = require('./models/Patient');
 
 	var sawyer = new Patient({
-	  username: 'burnett2k',
+	  username: 'burnett3k',
 	  password: 'blah',
 	  name: 'Sawyer Burnett',
 	  age: 28,

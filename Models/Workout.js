@@ -2,8 +2,11 @@ var mongoose = require('mongoose');
 
 var WorkoutSchema = new mongoose.Schema({
   name: String,
-  age: Number,
-  weight: Number,
+  instructions: String,
+  userid: String,
+  repsCompleted: Number,
+  repsTotal: Number,
+  dateCompleted: type: Date,
   updated_at: { type: Date, default: Date.now },
 });
 
