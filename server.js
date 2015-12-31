@@ -1,4 +1,5 @@
 var express = require('express');
+var path = require('path');
 var assert = require('assert');
 var app = express();
 
@@ -6,14 +7,27 @@ var mongoose = require('mongoose');
 
 var port = 3000;
 
+var routes = require('./routes/index');
 var patients = require('./routes/patients');
-app.use('/patients', patients);
+
+
 
 var url = 'mongodb://localhost/Cleric';
 
 var createTestData = false;
 
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
+app.use('/', routes);
+app.use('/patients', patients);
+
+app.use(function(req, res, next) {
+	var err = new Error('Not Found');
+	err.status = 404;
+	next(err);
+});
 
 mongoose.connect(url, function(err) {
 	if (err) {
@@ -46,4 +60,6 @@ if (createTestData) {
 }
 
 console.log('Magic happens on port ' + port);
+
+module.exports = app;
  
