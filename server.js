@@ -23,11 +23,11 @@ app.set('view engine', 'ejs');
 app.use('/', routes);
 app.use('/patients', patients);
 
-app.use(function(req, res, next) {
-	var err = new Error('Not Found');
-	err.status = 404;
-	next(err);
-});
+// app.use(function(req, res, next) {
+// 	var err = new Error('Not Found');
+// 	err.status = 404;
+// 	next(err);
+// });
 
 mongoose.connect(url, function(err) {
 	if (err) {

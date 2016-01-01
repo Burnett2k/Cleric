@@ -8,6 +8,7 @@ var Patient = require('../models/Patient.js');
 router.get('/', function(req, res, next) {
   Patient.find(function (err, patients) {
   	console.log("getting patients");
+    console.log(patients[0]);
     if (err) 
     	{
     		console.log(err);

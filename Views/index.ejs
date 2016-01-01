@@ -14,20 +14,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
 
     <!-- Template -->
-    <script type="text/ng-template" id="/todos.html">
+    <script type="text/ng-template" id="/patients.html">
       Search: <input type="text" ng-model="search.name">
       <ul>
-        <li ng-repeat="todo in todos | filter: search">
-          <input type="checkbox" ng-model="todo.completed">
-          <a href="#/{{$index}}">{{todo.name}}</a>
+        <li ng-repeat="patient in patients | filter: search">
+          <p>patient: {{patient}}</p>
+          <a href="#/{{$index}}">{{patient.name}}</a>
         </li>
       </ul>
     </script>
 
-    <script type="text/ng-template" id="/todoDetails.html">
-      <h1>{{ todo.name }}</h1>
-      completed: <input type="checkbox" ng-model="todo.completed">
-      note: <textarea>{{ todo.note }}</textarea>
+    <script type="text/ng-template" id="/patientDetails.html">
+      <h1>{{ patient.name }}</h1>
     </script>
 
     <script>
@@ -38,6 +36,7 @@
         //---------------
 
         .factory('Patients', ['$http', function($http) {
+            console.log("Hitting Factory");
             return $http.get('/patients');
         }])
 
@@ -46,9 +45,11 @@
         //---------------
 
         .controller('PatientController', ['$scope', 'Patients', function ($scope, Patients) {
-          Patient.success(function(data){
+          Patients.success(function(data){
+            console.log("patient controller success");
             $scope.patients = data;
-          }).error(function(data, status){console.log(data,status);
+          }).error(function(data, status){
+              console.log(data,status);
               $scope.patients = [];
             });
         }])
@@ -64,8 +65,8 @@
         .config(['$routeProvider', function ($routeProvider) {
           $routeProvider
             .when('/', {
-              templateUrl: '/todos.html',
-              controller: 'TodoController'
+              templateUrl: '/patients.html',
+              controller: 'PatientController'
             })
 
             .when('/:id', {
