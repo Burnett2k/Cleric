@@ -12,6 +12,7 @@
     <!-- Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
 
     <!-- Template -->
     <script type="text/ng-template" id="/patients.html">
@@ -19,25 +20,31 @@
       <ul>
         <li ng-repeat="patient in patients | filter: search">
           <p>patient: {{patient}}</p>
-          <a href="#/{{$index}}">{{patient.name}}</a>
+          <a href="#/{{patient._id}}">{{patient.name}}</a>
         </li>
       </ul>
+       New Patient <input type="text" ng-model="newPatient"><button ng-click="save()">Create</button>
     </script>
 
     <script type="text/ng-template" id="/patientDetails.html">
-      <h1>{{ patient.name }}</h1>
+      <h1>name: {{ patient.name }}</h1>
+      <h1>age: {{ patient.age }}</h1>
+      <h1>weight: {{ patient.weight }}</h1>
+      <h1>updated at: {{ patient.updated_at }}</h1>
     </script>
 
     <script>
-      angular.module('app', ['ngRoute'])
+      angular.module('app', ['ngRoute', 'ngResource'])
 
         //---------------
         // Services
         //---------------
 
-        .factory('Patients', ['$http', function($http) {
+        .factory('Patients', ['$resource', function($resource) {
             console.log("Hitting Factory");
-            return $http.get('/patients');
+            return $resource('/patients/:id', null, {
+              'update': { method:'PUT' }
+            });
         }])
 
         //---------------
@@ -45,17 +52,22 @@
         //---------------
 
         .controller('PatientController', ['$scope', 'Patients', function ($scope, Patients) {
-          Patients.success(function(data){
-            console.log("patient controller success");
-            $scope.patients = data;
-          }).error(function(data, status){
-              console.log(data,status);
-              $scope.patients = [];
+
+          $scope.patients = Patients.query();
+
+          $scope.save = function(){
+            if(!$scope.newPatient || $scope.newPatient.length < 1) return;
+            var patient = new Patients({ username: $scope.newPatient, weight: '100', password: 'kewlbeans006'});
+
+            patient.$save(function(){
+              $scope.patients.push(patient)
+              $scope.newPatient = ''; // clear textbox
             });
+          }
         }])
 
-        .controller('TodoDetailCtrl', ['$scope', '$routeParams', 'Todos', function ($scope, $routeParams, Todos) {
-          $scope.todo = Todos[$routeParams.id];
+        .controller('PatientDetailCtrl', ['$scope', '$routeParams', 'Patients', function ($scope, $routeParams, Patients) {
+          $scope.patient = Patients.get({id: $routeParams.id });
         }])
 
         //---------------
@@ -70,8 +82,8 @@
             })
 
             .when('/:id', {
-              templateUrl: '/todoDetails.html',
-              controller: 'TodoDetailCtrl'
+              templateUrl: '/patientDetails.html',
+              controller: 'PatientDetailCtrl'
            });
         }]);
     </script>

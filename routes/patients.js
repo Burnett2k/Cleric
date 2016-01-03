@@ -34,6 +34,14 @@ router.post('/', function(req, res, next) {
   });
 });
 
+/* PUT /todos/:id */
+router.put('/:id', function(req, res, next) {
+  Patient.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
 /* GET /todos/id */
 router.get('/:id', function(req, res, next) {
   Patient.findById(req.params.id, function (err, post) {
