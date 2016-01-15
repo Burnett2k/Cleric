@@ -20,7 +20,6 @@
       <ul>
         <li ng-repeat="patient in patients | filter: search">
           <p>patient: {{patient}}</p>
-          <p>{{$index}}</p>
           <input type="text" ng-model="patient.age" ng-change="update($index)">
           <a ng-show="!editing[$index]" href="#/{{patient._id}}">{{patient.name}}</a>
           <button ng-show="!editing[$index]" ng-click="edit($index)">edit</button>

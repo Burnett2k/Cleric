@@ -23,8 +23,7 @@ router.post('/', function(req, res, next) {
   //should this be a 'save' instead of a create?
   Patient.create(req.body, function (err, post) {
   	console.log("posting patient");
-  	console.log("req = " + req.toString());
-  	console.log("res = " + res.toString());
+  	console.log("req = " + req.body);
     if (err) 
     	{
     		console.log(err);
@@ -37,10 +36,11 @@ router.post('/', function(req, res, next) {
 /* PUT /todos/:id */
 router.put('/:id', function(req, res, next) {
   console.log("hitting put request");
+  console.log(req.body)
   Patient.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
-  });
+  })
 });
 
 /* GET /todos/id */
