@@ -11,6 +11,7 @@ var port = 3000;
 
 var routes = require('./routes/index');
 var patients = require('./routes/patients');
+var workouts = require('./routes/workouts');
 
 
 
@@ -27,6 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', routes);
 app.use('/patients', patients);
+app.use('/workouts', workouts);
 
 
 
@@ -50,17 +52,28 @@ mongoose.connect(url, function(err) {
 app.listen(port);
 
 if (createTestData) {
-	var Patient = require('./models/Patient');
+	// var Patient = require('./models/Patient');
 
-	var sawyer = new Patient({
-	  username: 'burnett3k',
-	  password: 'blah',
-	  name: 'Sawyer Burnett',
-	  age: 28,
-	  weight: 170
+	// var sawyer = new Patient({
+	//   username: 'burnett3k',
+	//   password: 'blah',
+	//   name: 'Sawyer Burnett',
+	//   age: 28,
+	//   weight: 170
+	// })
+
+	var Workout = require('./models/Workout');
+
+	var stretch = new Workout({
+		  name: 'it band stretch',
+		  instructions: 'stretch it real good',
+		  username : 'burnett3k',
+		  repsCompleted: '1',
+		  repsTotal: '10',
+		  dateCompleted: '1/24/2016'
 	})
 
-	sawyer.save(function(err) {
+	stretch.save(function(err) {
 		if (err) throw err;
 		console.log("created patient");
 	});
