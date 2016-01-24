@@ -6,8 +6,8 @@ var WorkoutSchema = new mongoose.Schema({
   userid: String,
   repsCompleted: Number,
   repsTotal: Number,
-  dateCompleted: type: Date,
-  updated_at: { type: Date, default: Date.now },
+  dateCompleted: { type: Date },
+  updated_at: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('Workout', WorkoutSchema);
