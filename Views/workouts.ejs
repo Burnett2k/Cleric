@@ -15,29 +15,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
 
     <!-- Template -->
-    <script type="text/ng-template" id="/patients.html">
+   <script type="text/ng-template" id="/workouts.html">
       Search: <input type="text" ng-model="search.name">
       <ul>
-        <li ng-repeat="patient in patients | filter: search">
-          <p>patient: {{patient}}</p>
-          <input type="text" ng-model="patient.age" ng-change="update($index)">
-          <a ng-show="!editing[$index]" href="#/{{patient._id}}">{{patient.name}}</a>
-          <button ng-show="!editing[$index]" ng-click="edit($index)">edit</button>
-          <input ng-show="editing[$index]" type="text" ng-model="patient.name">
-          <button ng-show="editing[$index]" ng-click="update($index)">update</button>
-          <button ng-show="editing[$index]" ng-click="cancel($index)">cancel</button>
+        <li ng-repeat="workout in workouts | filter: search">
+          <h1>Name: {{ workout.name }} </h1>
+          <h1>Instructions: {{ workout.instructions }}</h1>
+          <h1>Reps Completed: {{ workout.repsCompleted }}</h1>
+          <h1>Reps Total: {{ workout.repsTotal }}</h1>
+          <h1>Date Completed: {{ workout.dateCompleted }}</h1>
+          <button ng-click="update()">update</button>
         </li>
       </ul>
-       New Patient <input type="text" ng-model="newPatient"><button ng-click="save()">Create</button>
-    </script>
-
-    <script type="text/ng-template" id="/patientDetails.html">
-      <h1>username: {{ patient.username }} </h1>
-      <h1>name: {{ patient.name }}</h1>
-      <h1>age: {{ patient.age }}</h1>
-      <h1>weight: {{ patient.weight }}</h1>
-      <h1>updated at: {{ patient.updated_at }}</h1>
-      <button ng-click="update()">update</button>
+      New Workout <input type="text" ng-model="newWorkout"><button ng-click="save()">Create</button>
       <a href="/">Cancel</a>
     </script>
 
@@ -48,9 +38,10 @@
         // Services
         //---------------
 
-        .factory('Patients', ['$resource', function($resource) {
-            console.log("Hitting Factory");
-            return $resource('/patients/:id', null, {
+
+        .factory('Workouts', ['$resource', function($resource) {
+            console.log("Hitting Workout factory");
+            return $resource('/workouts/:id', null, {
               'update': { method:'PUT' }
             });
         }])
@@ -58,52 +49,20 @@
         //---------------
         // Controllers
         //---------------
-
-        .controller('PatientController', ['$scope', 'Patients', function ($scope, Patients) {
+       .controller('WorkoutController', ['$scope', 'Workouts', function ($scope, Workouts) {
 
           $scope.editing = [];
-          $scope.patients = Patients.query();
-
-          $scope.save = function(){
-            console.log("hitting save function");
-            if(!$scope.newPatient || $scope.newPatient.length < 1) return;
-            var patient = new Patients({ username: $scope.newPatient, weight: '100', password: 'kewlbeans006'});
-
-            patient.$save(function(){
-              $scope.patients.push(patient)
-              $scope.newPatient = ''; // clear textbox
-            });
-          }
-
-          $scope.update = function(index){
-            console.log("hitting update. index = ");
-            var patient = $scope.patients[index];
-            Patients.update({id: patient._id}, patient);
-            $scope.editing[index] = false;
-          }
-
-          $scope.edit = function(index){
-            $scope.editing[index] = angular.copy($scope.patients[index]);
-          }
-
-          $scope.cancel = function(index){
-            $scope.patients[index] = angular.copy($scope.editing[index]);
-            $scope.editing[index] = false;
-          }
-        }])
-
-        .controller('PatientDetailCtrl', ['$scope', '$routeParams', 'Patients', '$location', function ($scope, $routeParams, Patients, $location) {
-
-          $scope.patient = Patients.get({id: $routeParams.id });
+          $scope.workouts = Workouts.query();
+          console.log("hitting workout controller");
 
           $scope.update = function(){
-            Patients.update({id: $scope.patient._id}, $scope.patient, function() {
+            Workouts.update({id: $scope.workout._id}, $scope.workout, function() {
               console.log("hitting update 2");
               $location.url('/');
-
             });
           }
         }])
+
 
         //---------------
         // Routes
@@ -111,14 +70,10 @@
 
         .config(['$routeProvider', function ($routeProvider) {
           $routeProvider
-            .when('/', {
-              templateUrl: '/patients.html',
-              controller: 'PatientController'
-            })
 
-            .when('/:id', {
-              templateUrl: '/patientDetails.html',
-              controller: 'PatientDetailCtrl'
+            .when('/', {
+              templateUrl: '/workouts.html',
+              controller: 'WorkoutController'
            });
         }]);
     </script>
