@@ -29,6 +29,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', routes);
 app.use('/patients', patients);
 app.use('/workouts', workouts);
+//including views so I can serve up partials
+app.use(express.static(__dirname + '/views'));
+app.use(express.static(__dirname + '/stylesheets'));
 
 
 
@@ -62,21 +65,21 @@ if (createTestData) {
 	//   weight: 170
 	// })
 
-	var Workout = require('./models/Workout');
+	// var Workout = require('./models/Workout');
 
-	var stretch = new Workout({
-		  name: 'it band stretch',
-		  instructions: 'stretch it real good',
-		  username : 'burnett3k',
-		  repsCompleted: '1',
-		  repsTotal: '10',
-		  dateCompleted: '1/24/2016'
-	})
+	// var stretch = new Workout({
+	// 	  name: 'it band stretch',
+	// 	  instructions: 'stretch it real good',
+	// 	  username : 'burnett3k',
+	// 	  repsCompleted: '1',
+	// 	  repsTotal: '10',
+	// 	  dateCompleted: '1/24/2016'
+	// })
 
-	stretch.save(function(err) {
-		if (err) throw err;
-		console.log("created patient");
-	});
+	// stretch.save(function(err) {
+	// 	if (err) throw err;
+	// 	console.log("created patient");
+	// });
 }
 
 console.log('Magic happens on port ' + port);
