@@ -108,6 +108,10 @@
           }
         }])
 
+      .controller('SampleController', function ($scope, $routeParams){
+        console.log($routeParams.message);
+        $scope.name = $routeParams.message;
+      })
         //---------------
         // Routes
         //---------------
@@ -117,6 +121,11 @@
             .when('/', {
               templateUrl: '/patients.html',
               controller: 'PatientController'
+            })
+
+            .when('/:message', {
+              templateUrl: '/sample.html',
+              controller: 'SampleController'
             })
 
             .when('/:id', {
